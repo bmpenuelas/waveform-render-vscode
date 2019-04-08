@@ -7,11 +7,15 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('waveformRender.start', () => {
 			WaveformRenderPanel.createOrShow(context.extensionPath);
 		})
-	);
-}
+		);
+	}
+
+	function getTitle() {
+		return 'Waveform Render: ' + vscode.window.activeTextEditor.document.fileName.split('\\').pop().split('/').pop();
+	}
 
 /**
- * Manages webview panels
+ * Manages webview panel
  */
 class WaveformRenderPanel {
 	/**
@@ -32,14 +36,17 @@ class WaveformRenderPanel {
 
 		// If we already have a panel, show it.
 		if (WaveformRenderPanel.currentPanel) {
-			WaveformRenderPanel.currentPanel._panel.dispose();
+			WaveformRenderPanel.currentPanel._panel.reveal();
+			WaveformRenderPanel.currentPanel._panel.title = getTitle();
+			WaveformRenderPanel.currentPanel._updateWithFileContent();
+			return
 		}
 
 		// Otherwise, create a new panel.
 		const panel = vscode.window.createWebviewPanel(
 			WaveformRenderPanel.viewType,
-			'waveform render',
-			column || vscode.ViewColumn.One,
+			getTitle(),
+			{preserveFocus: false, viewColumn: -2},
 			{
 				// Enable javascript in the webview
 				enableScripts: true,
@@ -56,13 +63,7 @@ class WaveformRenderPanel {
 		this._panel = panel;
 		this._extensionPath = extensionPath;
 
-		// Get the current text editor 
-		let editor = vscode.window.activeTextEditor; 
-		let doc = editor.document; 
-		let docContent = doc.getText(); 
-
-		// Set the webview's initial html content
-		this._update(docContent);
+		this._updateWithFileContent();
 
 		// Listen for when the panel is disposed
 		// This happens when the user closes the panel or when the panel is closed programatically
@@ -89,19 +90,28 @@ class WaveformRenderPanel {
 		{ name: "Request",     wave: "0.1..0|1.0" },
 		{},
 		{ name: "Acknowledge", wave: "1.....|01." }
-	  ]}`) {
+	]}`) {
 		this._panel.webview.html = this._getHtmlForWebview(fileContents);
 	}
 
-	private _getHtmlForWebview(waveformJson: string) {
+	private _updateWithFileContent() {
+		// Get the current text editor
+		let editor = vscode.window.activeTextEditor;
+		let doc = editor.document;
+		let docContent = doc.getText();
 
+		// Set the webview's html content
+		this._update(docContent);
+	}
+
+	private _getHtmlForWebview(waveformJson: string) {
 		const scriptPathOnDisk = vscode.Uri.file(
 			path.join(this._extensionPath, 'localScripts', 'wavedrom.min.js')
-		);
-		const defaultSkinPathOnDisk = vscode.Uri.file(
-			path.join(this._extensionPath, 'localScripts/skins', 'default.js')
-		);
-		const narrowSkinPathOnDisk = vscode.Uri.file(
+			);
+			const defaultSkinPathOnDisk = vscode.Uri.file(
+				path.join(this._extensionPath, 'localScripts/skins', 'default.js')
+				);
+				const narrowSkinPathOnDisk = vscode.Uri.file(
 			path.join(this._extensionPath, 'localScripts/skins', 'narrow.js')
 		);
 
@@ -111,24 +121,24 @@ class WaveformRenderPanel {
 		const narrowUri = narrowSkinPathOnDisk.with({ scheme: 'vscode-resource' });
 
 		return `<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
+		        <html lang="en">
+		        <head>
+		            <meta charset="UTF-8">
 
-								<script src="${scriptUri}"></script>
-								<script src="${defaultUri}"></script>
-								<script src="${narrowUri}"></script>
+									<script src="${scriptUri}"></script>
+									<script src="${defaultUri}"></script>
+									<script src="${narrowUri}"></script>
 
-                <title>waveform render</title>
-						</head>
-						
-						<body onload="WaveDrom.ProcessAll()">
-						  <div style="background-color: white;">
-								<script type="WaveDrom">
-									${waveformJson}
-								</script>
-							</div>
-            </body>
-            </html>`;
+		              <title>waveform render</title>
+							</head>
+
+							<body onload="WaveDrom.ProcessAll()">
+							  <div style="background-color: white;">
+									<script type="WaveDrom">
+										${waveformJson}
+									</script>
+								</div>
+		          </body>
+		          </html>`;
 	}
 }
