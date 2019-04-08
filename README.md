@@ -17,4 +17,4 @@ Render waveforms with [WaveDrom](https://github.com/wavedrom/wavedrom) inside [V
 :rainbow: and you will get a new tab with a nice waveform rendered inside your text editor
 ![waveform render vscode example](/media/demo_0.png)
 
-You can find the complete syntax [here](https://github.com/wavedrom/schema).
+You can find the complete syntax [here](https://github.com/wavedrom/schema/blob/master/WaveJSON.md).
