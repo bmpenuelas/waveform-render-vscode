@@ -3,7 +3,7 @@
   "displayName": "Waveform Render",
   "description": "Draw timing diagram waveforms with WaveDrom inside VSCode",
   "icon": "media/icon.png",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "bmpenuelas",
   "engines": {
     "vscode": "^1.26.0"
