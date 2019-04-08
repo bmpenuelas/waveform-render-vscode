@@ -2,6 +2,7 @@
   "name": "waveform-render",
   "displayName": "Waveform Render",
   "description": "Draw timing diagram waveforms with WaveDrom inside VSCode",
+  "keywords": ["timing", "diagram", "waveform", "wavedrom", "WaveJSON"],
   "icon": "media/icon.png",
   "version": "0.2.0",
   "publisher": "bmpenuelas",
