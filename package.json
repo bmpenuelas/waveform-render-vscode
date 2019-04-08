@@ -1,6 +1,8 @@
 {
 	"name": "waveform-render",
-	"description": "Waveform Render - WaveDrom in VSCode",
+	"displayName": "Waveform Render",
+	"description": "Draw timing diagram waveforms with WaveDrom inside VSCode",
+	"icon": "media/icon.png",
 	"version": "0.0.1",
 	"publisher": "bmpenuelas",
 	"engines": {
@@ -9,6 +11,14 @@
 	"categories": [
 		"Other"
 	],
+	"homepage": "https://github.com/bmpenuelas/waveform-render-vscode",
+	"bugs": {
+		"email": "bmpenuelas@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bmpenuelas/waveform-render-vscode.git"
+	},
 	"activationEvents": [
 		"onCommand:waveformRender.start",
 		"onWebviewPanel:waveformRender"
