@@ -1,57 +1,57 @@
 {
-	"name": "waveform-render",
-	"displayName": "Waveform Render",
-	"description": "Draw timing diagram waveforms with WaveDrom inside VSCode",
-	"icon": "media/icon.png",
-	"version": "0.0.1",
-	"publisher": "bmpenuelas",
-	"engines": {
-		"vscode": "^1.26.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"homepage": "https://github.com/bmpenuelas/waveform-render-vscode",
-	"bugs": {
-		"email": "bmpenuelas@gmail.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bmpenuelas/waveform-render-vscode.git"
-	},
-	"activationEvents": [
-		"onCommand:waveformRender.start",
-		"onWebviewPanel:waveformRender"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "waveformRender.start",
-				"title": "draw",
-				"category": "Waveform Render"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "waveformRender.start",
-				"key": "ctrl+w ctrl+d",
-				"mac": "shift+cmd+f",
-				"when": "editorTextFocus"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "tsc -p ./",
-		"compile": "tsc -p ./",
-		"watch": "tsc -w -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install"
-	},
-	"dependencies": {},
-	"devDependencies": {
-		"@types/node": "^10.5.2",
-		"tslint": "^5.11.0",
-		"typescript": "^2.9.2",
-		"vscode": "^1.1.29"
-	}
+  "name": "waveform-render",
+  "displayName": "Waveform Render",
+  "description": "Draw timing diagram waveforms with WaveDrom inside VSCode",
+  "icon": "media/icon.png",
+  "version": "0.1.0",
+  "publisher": "bmpenuelas",
+  "engines": {
+    "vscode": "^1.26.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "homepage": "https://github.com/bmpenuelas/waveform-render-vscode",
+  "bugs": {
+    "email": "bmpenuelas@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmpenuelas/waveform-render-vscode.git"
+  },
+  "activationEvents": [
+    "onCommand:waveformRender.start",
+    "onWebviewPanel:waveformRender"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "waveformRender.start",
+        "title": "draw",
+        "category": "Waveform Render"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "waveformRender.start",
+        "key": "ctrl+w ctrl+d",
+        "mac": "shift+cmd+f",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^10.5.2",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2",
+    "vscode": "^1.1.29"
+  }
 }
