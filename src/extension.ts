@@ -132,8 +132,8 @@ class WaveformRenderPanel {
                   <title>waveform render</title>
             </head>
 
-            <body onload="WaveDrom.ProcessAll()">
-              <div style="background-color: white;">
+            <body onload="WaveDrom.ProcessAll()" style="background-color: white;">
+              <div>
                 <script type="WaveDrom">
                   ${waveformJson}
                 </script>
