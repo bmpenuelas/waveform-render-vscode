@@ -12,7 +12,7 @@ Render waveforms with [WaveDrom](https://github.com/wavedrom/wavedrom) inside [V
 ]}
 ```
 
-:musical_keyboard: press (`ctrl+w` followed by `ctrl+d`), or (`ctrl+shift+p` followed by `Waveform Render: draw`)
+:musical_keyboard: press (`ctrl+k` followed by `ctrl+d`), or (`ctrl+shift+p` followed by `Waveform Render: draw`)
 
 :rainbow: and you will get a new tab with a nice waveform rendered inside your text editor
 ![waveform render vscode example](/media/demo_0.png)

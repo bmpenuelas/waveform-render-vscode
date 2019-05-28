@@ -36,8 +36,7 @@
     "keybindings": [
       {
         "command": "waveformRender.start",
-        "key": "ctrl+w ctrl+d",
-        "mac": "shift+cmd+f",
+        "key": "ctrl+k ctrl+d",
         "when": "editorTextFocus"
       }
     ]
