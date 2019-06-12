@@ -36,7 +36,7 @@ class WaveformRenderPanel {
 
     // If we already have a panel, show it.
     if (WaveformRenderPanel.currentPanel) {
-      WaveformRenderPanel.currentPanel._panel.reveal();
+      WaveformRenderPanel.currentPanel._panel.reveal(undefined, true);
       WaveformRenderPanel.currentPanel._panel.title = getTitle();
       WaveformRenderPanel.currentPanel._updateWithFileContent();
       return
@@ -46,7 +46,7 @@ class WaveformRenderPanel {
     const panel = vscode.window.createWebviewPanel(
       WaveformRenderPanel.viewType,
       getTitle(),
-      {preserveFocus: false, viewColumn: -2},
+      {preserveFocus: true, viewColumn: -2},
       {
         // Enable javascript in the webview
         enableScripts: true,
