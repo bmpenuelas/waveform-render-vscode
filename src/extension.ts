@@ -108,17 +108,21 @@ class WaveformRenderPanel {
     const scriptPathOnDisk = vscode.Uri.file(
       path.join(this._extensionPath, 'localScripts', 'wavedrom.min.js')
       );
-      const defaultSkinPathOnDisk = vscode.Uri.file(
-        path.join(this._extensionPath, 'localScripts/skins', 'default.js')
-        );
-        const narrowSkinPathOnDisk = vscode.Uri.file(
+    const defaultSkinPathOnDisk = vscode.Uri.file(
+      path.join(this._extensionPath, 'localScripts/skins', 'default.js')
+    );
+    const narrowSkinPathOnDisk = vscode.Uri.file(
       path.join(this._extensionPath, 'localScripts/skins', 'narrow.js')
+    );
+    const lowkeySkinPathOnDisk = vscode.Uri.file(
+      path.join(this._extensionPath, 'localScripts/skins', 'lowkey.js')
     );
 
     // And the uri we use to load this script in the webview
     const scriptUri = scriptPathOnDisk.with({ scheme: 'vscode-resource' });
     const defaultUri = defaultSkinPathOnDisk.with({ scheme: 'vscode-resource' });
     const narrowUri = narrowSkinPathOnDisk.with({ scheme: 'vscode-resource' });
+    const lowkeyUri = lowkeySkinPathOnDisk.with({ scheme: 'vscode-resource' });
 
     return `<!DOCTYPE html>
             <html lang="en">
@@ -126,8 +130,10 @@ class WaveformRenderPanel {
                 <meta charset="UTF-8">
 
                   <script src="${scriptUri}"></script>
+
                   <script src="${defaultUri}"></script>
                   <script src="${narrowUri}"></script>
+                  <script src="${lowkeyUri}"></script>
 
                   <title>waveform render</title>
             </head>
