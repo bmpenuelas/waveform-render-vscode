@@ -1,5 +1,6 @@
 Render waveforms with [WaveDrom](https://github.com/wavedrom/wavedrom) inside [VSCode](https://code.visualstudio.com/)
 
+<br>
 
 :page_with_curl: Open a JSON file containing a WaveDrom waveform, like
 ```
