@@ -28,6 +28,7 @@
   },
   "activationEvents": [
     "onCommand:waveformRender.start",
+    "onCommand:waveformRender.toggleLivePreview",
     "onWebviewPanel:waveformRender"
   ],
   "main": "./out/extension.js",
@@ -35,7 +36,12 @@
     "commands": [
       {
         "command": "waveformRender.start",
-        "title": "draw",
+        "title": "Draw",
+        "category": "Waveform Render"
+      },
+      {
+        "command": "waveformRender.toggleLivePreview",
+        "title": "Toggle live preview",
         "category": "Waveform Render"
       }
     ],

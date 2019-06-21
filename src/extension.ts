@@ -7,8 +7,13 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('waveformRender.start', () => {
       WaveformRenderPanel.createOrShow(context.extensionPath);
     })
-    );
-  }
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('waveformRender.toggleLivePreview', () => {
+      WaveformRenderPanel.toggleLivePreview(context.extensionPath);
+    })
+  );
+}
 
   function getTitle() {
     return 'Waveform Render: ' + vscode.window.activeTextEditor.document.fileName.split('\\').pop().split('/').pop();
@@ -23,11 +28,26 @@ class WaveformRenderPanel {
    */
   public static currentPanel: WaveformRenderPanel | undefined;
 
+  public static livePreview: boolean = false;
+  public static listenerTextChange;
+
   public static readonly viewType = 'waveformRender';
 
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionPath: string;
   private _disposables: vscode.Disposable[] = [];
+
+  public static toggleLivePreview(extensionPath: string) {
+    if (WaveformRenderPanel.livePreview) {
+      WaveformRenderPanel.listenerTextChange.dispose();
+    } else {
+      WaveformRenderPanel.listenerTextChange = vscode.workspace.onDidChangeTextDocument(function (event) {
+        WaveformRenderPanel.createOrShow(extensionPath);
+      });
+    }
+    WaveformRenderPanel.livePreview = !WaveformRenderPanel.livePreview
+    vscode.window.showInformationMessage('Waveform live preview: ' + ((WaveformRenderPanel.livePreview)? 'ON' : 'OFF'));
+  }
 
   public static createOrShow(extensionPath: string) {
     const column = vscode.window.activeTextEditor
