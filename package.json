@@ -41,7 +41,7 @@
       },
       {
         "command": "waveformRender.toggleLivePreview",
-        "title": "Toggle live preview",
+        "title": "Toggle Live Preview",
         "category": "Waveform Render"
       }
     ],
@@ -49,6 +49,11 @@
       {
         "command": "waveformRender.start",
         "key": "ctrl+k ctrl+d",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "waveformRender.toggleLivePreview",
+        "key": "ctrl+k ctrl+l",
         "when": "editorTextFocus"
       }
     ]
