@@ -66,9 +66,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^10.5.2",
-    "tslint": "^5.11.0",
+    "@types/node": "^10.17.21",
+    "tslint": "^5.20.1",
     "typescript": "^2.9.2",
-    "vscode": "^1.1.29"
+    "vscode": "^1.1.37"
   }
 }
