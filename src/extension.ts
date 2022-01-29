@@ -56,7 +56,7 @@ class WaveformRenderPanel {
 
     // If we already have a panel, show it.
     if (WaveformRenderPanel.currentPanel) {
-      WaveformRenderPanel.currentPanel._panel.reveal(undefined, true);
+      //WaveformRenderPanel.currentPanel._panel.reveal(undefined, true);
       WaveformRenderPanel.currentPanel._panel.title = getTitle();
       WaveformRenderPanel.currentPanel._updateWithFileContent();
       return
