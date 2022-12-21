@@ -175,12 +175,10 @@ class WaveformRenderPanel {
     );
 
     // And the uri we use to load this script in the webview
-    const scriptUri = scriptPathOnDisk.with({ scheme: "vscode-resource" });
-    const defaultUri = defaultSkinPathOnDisk.with({
-      scheme: "vscode-resource",
-    });
-    const narrowUri = narrowSkinPathOnDisk.with({ scheme: "vscode-resource" });
-    const lowkeyUri = lowkeySkinPathOnDisk.with({ scheme: "vscode-resource" });
+    const scriptUri = this._panel.webview.asWebviewUri(scriptPathOnDisk);
+    const defaultUri = this._panel.webview.asWebviewUri(defaultSkinPathOnDisk);
+    const narrowUri = this._panel.webview.asWebviewUri(narrowSkinPathOnDisk);
+    const lowkeyUri = this._panel.webview.asWebviewUri(lowkeySkinPathOnDisk);
 
     return `<!DOCTYPE html>
             <html lang="en">
