@@ -34,4 +34,4 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 
 <br>
 
-You can find the complete syntax [here](https://github.com/wavedrom/schema/blob/master/WaveJSON.md).
+You can find the complete WaveDrom syntax [in the WaveDrom schema docs](https://github.com/wavedrom/schema/blob/master/WaveJSON.md).
