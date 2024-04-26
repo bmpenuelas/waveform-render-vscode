@@ -4,10 +4,10 @@ Render waveforms with [WaveDrom](https://github.com/wavedrom/wavedrom) inside [V
 
 This VSCode extension is [available on the VSCode Extension Marketplace](https://marketplace.visualstudio.com/items?itemName=bmpenuelas.waveform-render).
 
-<br>
+## Usage
 
 :page_with_curl: Open a JSON file containing a WaveDrom waveform, like
-```
+```json
 { signal: [
   { name: "clk",         wave: "p.....|..." },
   { name: "Data",        wave: "x.345x|=.x", data: ["head", "body", "tail", "data"] },
@@ -20,11 +20,11 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 <br>
 <br>
 
-:musical_keyboard: press (`ctrl+k` followed by `ctrl+d`), or (`ctrl+shift+p` followed by `Waveform Render: Draw`) to **draw** the waveform in your editor
+:musical_keyboard: Press "`Ctrl+K` followed by `Ctrl+D`", or "`Ctrl+Shift+P` followed by `Waveform Render: Draw`" to **draw** the waveform in your editor
 
 *or*
 
-:arrows_clockwise: press (`ctrl+k` followed by `ctrl+l`), or (`ctrl+shift+p` followed by `Waveform Render: Toggle Live Preview`) to get the waveform updated as you type
+:arrows_clockwise: Press "`Ctrl+K` followed by `Ctrl+L`", or "`Ctrl+Shift+P` followed by `Waveform Render: Toggle Live Preview`" to make the waveform update as you type
 
 <br>
 <br>
