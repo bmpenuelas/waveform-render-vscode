@@ -1,4 +1,8 @@
-Render waveforms with [WaveDrom](https://github.com/wavedrom/wavedrom) inside [VSCode](https://code.visualstudio.com/)
+# waveform-render-vscode
+
+Render waveforms with [WaveDrom](https://github.com/wavedrom/wavedrom) inside [VSCode](https://code.visualstudio.com/).
+
+This VSCode extension is [available on the VSCode Extension Marketplace](https://marketplace.visualstudio.com/items?itemName=bmpenuelas.waveform-render).
 
 <br>
 
