@@ -59,6 +59,7 @@ class WaveformRenderPanel {
           WaveformRenderPanel.createOrShow(extensionPath);
         });
       WaveformRenderPanel.livePreview = true;
+      WaveformRenderPanel.createOrShow(extensionPath);
     }
     vscode.window.showInformationMessage(
       "Waveform Live Preview: " +
