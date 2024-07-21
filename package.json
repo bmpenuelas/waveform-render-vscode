@@ -62,7 +62,10 @@
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -p ./",
-    "watch": "tsc -w -p ./"
+    "watch": "tsc -w -p ./",
+    "publish:marketplace": "vsce package && vsce publish",
+    "publish:openvsx": "bash -c \"read -p 'Enter packaged filename: ' filename && read -sp 'Enter openvsx token: ' token && echo && npx ovsx publish \\\"$filename\\\" -p \\\"$token\\\"\"",
+    "publish": "npm run publish:marketplace && npm run publish:openvsx"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
