@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 function getTitle() {
   return (
-    "Waveform Render: " +
+    "Waveform Blabla: " +
     vscode.window.activeTextEditor.document.fileName
       .split("\\")
       .pop()
@@ -62,8 +62,15 @@ class WaveformRenderPanel {
   private _disposables: vscode.Disposable[] = [];
 
   public static toggleLivePreview(extensionPath: string) {
+    const closePanelOnDisable = vscode.workspace.getConfiguration("waveformRender").get<boolean>("closePanelOnDisable", true);
+
     if (WaveformRenderPanel.livePreview) {
       WaveformRenderPanel.disableLivePreview();
+
+      // Close the panel if the setting is enabled
+      if (closePanelOnDisable && WaveformRenderPanel.currentPanel) {
+        WaveformRenderPanel.currentPanel.dispose();
+      }
     } else {
       WaveformRenderPanel.livePreviewDocumentPath =
         vscode.window.activeTextEditor.document.uri.path;
