@@ -28,8 +28,6 @@
     "url": "https://github.com/bmpenuelas/waveform-render-vscode.git"
   },
   "activationEvents": [
-    "onCommand:waveformRender.start",
-    "onCommand:waveformRender.toggleLivePreview",
     "onWebviewPanel:waveformRender"
   ],
   "main": "./out/extension.js",
@@ -42,10 +40,31 @@
       },
       {
         "command": "waveformRender.toggleLivePreview",
-        "title": "Toggle Live Preview",
-        "category": "Waveform Render"
+        "title": "Toggle Live Waveform Preview",
+        "category": "Waveform Render",
+        "icon": "$(pulse)"
       }
     ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "waveformRender.toggleLivePreview",
+          "group": "navigation",
+          "when": "resourceExtname == .json"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "Waveform Render Settings",
+      "properties": {
+        "waveformRender.closePanelOnDisable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Close the Waveform panel when live preview is disabled."
+        }
+      }
+    },
     "keybindings": [
       {
         "command": "waveformRender.start",
