@@ -16,6 +16,19 @@ export function activate(context: vscode.ExtensionContext) {
       WaveformRenderPanel.toggleLivePreview(context.extensionPath);
     })
   );
+
+  // Add listener for changing active text editor
+  context.subscriptions.push(
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      if (
+        WaveformRenderPanel.livePreview &&
+        editor &&
+        editor.document.fileName.endsWith('.json')
+      ) {
+        WaveformRenderPanel.createOrShow(context.extensionPath);
+      }
+    })
+  );
 }
 
 function getTitle() {
@@ -76,27 +89,28 @@ class WaveformRenderPanel {
   }
 
   public static createOrShow(extensionPath: string) {
-    // If we already have a panel, show it.
+    const activeEditor = vscode.window.activeTextEditor;
+
+    // Ensure we have an active editor and it's a JSON file
+    if (!activeEditor || !activeEditor.document.fileName.endsWith('.json')) {
+      return;
+    }
+
+    // If we already have a panel
     if (WaveformRenderPanel.currentPanel) {
-      // If live preview is on, only update the document where it was activated
-      if (
-        WaveformRenderPanel.livePreview &&
-        WaveformRenderPanel.livePreviewDocumentPath !=
-          vscode.window.activeTextEditor.document.uri.path
-      ) {
-        return;
-      } else {
-        WaveformRenderPanel.currentPanel._panel.title = getTitle();
-        WaveformRenderPanel.currentPanel._updateWithFileContent();
-        return;
-      }
+      // Update the panel title
+      WaveformRenderPanel.currentPanel._panel.title = getTitle();
+
+      // Update the panel content
+      WaveformRenderPanel.currentPanel._updateWithFileContent();
+      return;
     }
 
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
       WaveformRenderPanel.viewType,
       getTitle(),
-      { preserveFocus: true, viewColumn: -2 },
+      { preserveFocus: true, viewColumn: vscode.ViewColumn.Beside },
       {
         // Enable javascript in the webview
         enableScripts: true,
@@ -127,6 +141,9 @@ class WaveformRenderPanel {
 
   public dispose() {
     WaveformRenderPanel.currentPanel = undefined;
+
+    // Disable live preview when the panel is closed
+    WaveformRenderPanel.disableLivePreview();
 
     // Clean up our resources
     this._panel.dispose();
