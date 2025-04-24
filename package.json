@@ -82,6 +82,7 @@
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -p ./",
     "watch": "tsc -w -p ./",
+    "update-scripts": "mkdir -p localScripts/skins && curl -k -o localScripts/wavedrom.min.js https://wavedrom.com/wavedrom.min.js && curl -k -o localScripts/skins/dark.js https://wavedrom.com/skins/dark.js && curl -k -o localScripts/skins/default.js https://wavedrom.com/skins/default.js && curl -k -o localScripts/skins/lowkey.js https://wavedrom.com/skins/lowkey.js && curl -k -o localScripts/skins/narrow.js https://wavedrom.com/skins/narrow.js && curl -k -o localScripts/skins/narrower.js https://wavedrom.com/skins/narrower.js && curl -k -o localScripts/skins/narrowerer.js https://wavedrom.com/skins/narrowerer.js && curl -k -o localScripts/skins/width.html https://wavedrom.com/skins/width.html",
     "publish:marketplace": "vsce package && vsce publish",
     "publish:openvsx": "bash -c \"read -p 'Enter packaged filename: ' filename && read -sp 'Enter openvsx token: ' token && echo && npx ovsx publish \\\"$filename\\\" -p \\\"$token\\\"\"",
     "publish": "npm run publish:marketplace && npm run publish:openvsx"
