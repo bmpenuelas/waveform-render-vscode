@@ -21,6 +21,7 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 <br>
 
 :arrow_right: click the wave button at the top-right corner
+
 ![waveform render vscode button](/media/demo_1.png)
 
 *or*
@@ -35,8 +36,19 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 <br>
 
 :rainbow: and you will get a new tab with a nice waveform rendered inside your text editor
+
 ![waveform render vscode example](/media/demo_0.png)
 
 <br>
+<br>
+
+## Saving the waveform
+
+You can save the rendered waveform as PNG or SVG by right clicking the waveform and selecting your preferred format.
+
+<br>
+<br>
+
+## Syntax
 
 You can find the complete WaveDrom syntax [in the WaveDrom schema docs](https://github.com/wavedrom/schema/blob/master/WaveJSON.md).
