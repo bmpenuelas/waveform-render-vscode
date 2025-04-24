@@ -2,6 +2,7 @@ import * as path from "path";
 import * as vscode from "vscode";
 
 export function activate(context: vscode.ExtensionContext) {
+  // Start and live preview mode
   context.subscriptions.push(
     vscode.commands.registerCommand("waveformRender.start", () => {
       WaveformRenderPanel.disableLivePreview();
@@ -27,6 +28,18 @@ export function activate(context: vscode.ExtensionContext) {
       ) {
         WaveformRenderPanel.createOrShow(context.extensionPath);
       }
+    })
+  );
+
+  // Export the waveform
+  context.subscriptions.push(
+    vscode.commands.registerCommand("waveformRender.saveAsPng", () => {
+      WaveformRenderPanel.saveAsPng();
+    })
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("waveformRender.saveAsSvg", () => {
+      WaveformRenderPanel.saveAsSvg();
     })
   );
 }
@@ -165,6 +178,18 @@ class WaveformRenderPanel {
     }
   }
 
+  public static saveAsSvg() {
+    if (WaveformRenderPanel.currentPanel) {
+      WaveformRenderPanel.currentPanel._panel.webview.postMessage({ command: "saveSvg" });
+    }
+  }
+
+  public static saveAsPng() {
+    if (WaveformRenderPanel.currentPanel) {
+      WaveformRenderPanel.currentPanel._panel.webview.postMessage({ command: "savePng" });
+    }
+  }
+
   private _updateWithFileContent() {
     // Get the current text editor
     let editor = vscode.window.activeTextEditor;
@@ -222,12 +247,105 @@ class WaveformRenderPanel {
                   <title>${title}</title>
             </head>
 
+            <script>
+            window.addEventListener('message', async event => {
+              const command = event.data.command;
+
+              const svgEl = document.querySelector('svg');
+              if (!svgEl) return;
+
+              if (command === 'saveSvg') {
+                const blob = new Blob([svgEl.outerHTML], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = document.title + '.svg';
+                a.click();
+                URL.revokeObjectURL(url);
+              }
+
+              if (command === 'savePng') {
+                const svg = new XMLSerializer().serializeToString(svgEl);
+                const svg64 = btoa(unescape(encodeURIComponent(svg)));
+                const img = new Image();
+                img.src = 'data:image/svg+xml;base64,' + svg64;
+
+                img.onload = async function () {
+                  const scaleFactor = 2; // 2x resolution
+                  const canvas = document.createElement('canvas');
+                  const width = img.width * scaleFactor;
+                  const height = img.height * scaleFactor;
+
+                  canvas.width = width;
+                  canvas.height = height;
+                  const ctx = canvas.getContext('2d');
+                  ctx.scale(scaleFactor, scaleFactor); // scale the context to increase resolution
+                  ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
+
+                  const pngUrl = canvas.toDataURL('image/png');
+
+                  const a = document.createElement('a');
+                  a.href = pngUrl;
+                  a.download = document.title + '.png';
+                  a.click();
+                };
+              }
+
+            });
+            </script>
+
             <body onload="WaveDrom.ProcessAll()" style="background-color: white;">
+              <div id="copyBtn" style="display: flex; align-items: center; justify-content: flex-end; cursor: pointer; margin-top: 10px; margin-bottom: 10px;">
+                <span style="font-size: 14px; margin-right: 3px;">📋</span>
+                <span style="font-weight: 600; font-size: 16px;">copy to clipboard</span>
+              </div>
+
               <div>
                 <script type="WaveDrom">
                   ${waveformJson}
                 </script>
               </div>
+
+              <script>
+                document.getElementById('copyBtn').addEventListener('click', async () => {
+                  const svgEl = document.querySelector('svg');
+                  if (!svgEl) {
+                    alert('SVG not found!');
+                    return;
+                  }
+
+                  const svg = new XMLSerializer().serializeToString(svgEl);
+                  const svg64 = btoa(unescape(encodeURIComponent(svg)));
+                  const img = new Image();
+                  img.src = 'data:image/svg+xml;base64,' + svg64;
+
+                  img.onload = async function () {
+                    const scaleFactor = 2; // 2x resolution
+                    const canvas = document.createElement('canvas');
+                    const width = img.width * scaleFactor;
+                    const height = img.height * scaleFactor;
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.scale(scaleFactor, scaleFactor); // scale the context to increase resolution
+                    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
+
+                    const pngUrl = canvas.toDataURL('image/png');
+                    const blob = await (await fetch(pngUrl)).blob();
+
+                    try {
+                      await navigator.clipboard.write([
+                        new ClipboardItem({ [blob.type]: blob })
+                      ]);
+                      alert('Image copied to clipboard!');
+                    } catch (err) {
+                      alert('Clipboard copy failed: ' + err.message);
+                    }
+                  };
+                });
+              </script>
+
             </body>
             </html>`;
   }

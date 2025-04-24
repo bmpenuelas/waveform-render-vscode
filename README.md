@@ -44,7 +44,11 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 
 ## Saving the waveform
 
-You can save the rendered waveform as PNG or SVG by right clicking the waveform and selecting your preferred format.
+- You can save the rendered waveform as PNG or SVG by right clicking the waveform and selecting your preferred format.
+- Or click the "📋copy to clipboard" button in twe waveform pannel to copy the image to your clipboard.
+- Or use VSCode commands to save as PNG/SVG:
+    - `Waveform Render: Copy Save as PNG` (`waveformRender.saveAsPng`)
+    - `Waveform Render: Copy Save as SVG` (`waveformRender.saveAsSvg`)
 
 <br>
 <br>

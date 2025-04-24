@@ -43,6 +43,16 @@
         "title": "Toggle Live Waveform Preview",
         "category": "Waveform Render",
         "icon": "$(pulse)"
+      },
+      {
+        "command": "waveformRender.saveAsPng",
+        "title": "Save as PNG",
+        "category": "Waveform Render"
+      },
+      {
+        "command": "waveformRender.saveAsSvg",
+        "title": "Save as SVG",
+        "category": "Waveform Render"
       }
     ],
     "menus": {
