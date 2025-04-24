@@ -6,7 +6,7 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 
 ## Usage
 
-:page_with_curl: Open a JSON file containing a WaveDrom waveform, like
+:page_with_curl: Open a .JSON file containing a WaveDrom waveform, like
 ```json
 { signal: [
   { name: "clk",         wave: "p.....|..." },
@@ -19,6 +19,11 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 
 <br>
 <br>
+
+:arrow_right: click the wave button at the top-right corner
+![waveform render vscode button](/media/demo_1.png)
+
+*or*
 
 :musical_keyboard: Press "`Ctrl+K` followed by `Ctrl+D`", or "`Ctrl+Shift+P` followed by `Waveform Render: Draw`" to **draw** the waveform in your editor
 
