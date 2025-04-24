@@ -31,15 +31,17 @@ export function activate(context: vscode.ExtensionContext) {
   );
 }
 
-function getTitle() {
+function getFilename() {
   return (
-    "Waveform Blabla: " +
     vscode.window.activeTextEditor.document.fileName
-      .split("\\")
+      .split(/[\\/]/)
       .pop()
-      .split("/")
-      .pop()
+      .replace(/\.json$/, '')
   );
+}
+
+function getTitle() {
+  return "Waveform: " + getFilename();
 }
 
 /**
@@ -170,7 +172,7 @@ class WaveformRenderPanel {
     let docContent = doc.getText();
 
     // Set the webview's html content
-    this._update(docContent);
+    this._update(docContent, getFilename());
   }
 
   private _update(
@@ -180,12 +182,13 @@ class WaveformRenderPanel {
     { name: "Request",     wave: "0.1..0|1.0" },
     {},
     { name: "Acknowledge", wave: "1.....|01." }
-  ]}`
+  ]}`,
+    title?: string
   ) {
-    this._panel.webview.html = this._getHtmlForWebview(fileContents);
+    this._panel.webview.html = this._getHtmlForWebview(fileContents, title);
   }
 
-  private _getHtmlForWebview(waveformJson: string) {
+  private _getHtmlForWebview(waveformJson: string, title: string = 'waveform render') {
     const scriptPathOnDisk = vscode.Uri.file(
       path.join(this._extensionPath, "localScripts", "wavedrom.min.js")
     );
@@ -216,7 +219,7 @@ class WaveformRenderPanel {
                   <script src="${narrowUri}"></script>
                   <script src="${lowkeyUri}"></script>
 
-                  <title>waveform render</title>
+                  <title>${title}</title>
             </head>
 
             <body onload="WaveDrom.ProcessAll()" style="background-color: white;">
