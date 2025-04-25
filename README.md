@@ -6,7 +6,7 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 
 ## Usage
 
-:page_with_curl: Open a .JSON file containing a WaveDrom waveform, like
+📄 Open a .JSON file containing a WaveDrom waveform, like
 ```json
 { signal: [
   { name: "clk",         wave: "p.....|..." },
@@ -18,39 +18,35 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 ```
 
 <br>
-<br>
 
-:arrow_right: click the wave button at the top-right corner
+➡️ click the wave button at the top-right corner
 
 ![waveform render vscode button](/media/demo_1.png)
 
 *or*
 
-:musical_keyboard: Press "`Ctrl+K` followed by `Ctrl+D`", or "`Ctrl+Shift+P` followed by `Waveform Render: Draw`" to **draw** the waveform in your editor
+🎹 Press "`Ctrl+K` followed by `Ctrl+D`", or "`Ctrl+Shift+P` followed by `Waveform Render: Draw`" to **draw** the waveform in your editor
 
 *or*
 
-:arrows_clockwise: Press "`Ctrl+K` followed by `Ctrl+L`", or "`Ctrl+Shift+P` followed by `Waveform Render: Toggle Live Preview`" to make the waveform update as you type
+🔃 Press "`Ctrl+K` followed by `Ctrl+L`", or "`Ctrl+Shift+P` followed by `Waveform Render: Toggle Live Preview`" to make the waveform update as you type
 
 <br>
-<br>
 
-:rainbow: and you will get a new tab with a nice waveform rendered inside your text editor
+🌈 and you will get a new tab with a nice waveform rendered inside your text editor
 
 ![waveform render vscode example](/media/demo_0.png)
 
 <br>
-<br>
 
-## Saving the waveform
+## 💾 Saving the waveform
 
-- You can save the rendered waveform as PNG or SVG by right clicking the waveform and selecting your preferred format.
-- Or click the "📋copy to clipboard" button in twe waveform pannel to copy the image to your clipboard.
+- You can save the rendered waveform as PNG or SVG by right-clicking the waveform and selecting your preferred format.
+- Or click the `📋copy to clipboard` button in twe waveform pannel to copy the image to your clipboard.
 - Or use VSCode commands to save as PNG/SVG:
     - `Waveform Render: Copy Save as PNG` (`waveformRender.saveAsPng`)
     - `Waveform Render: Copy Save as SVG` (`waveformRender.saveAsSvg`)
 
-<br>
 <br>
 
 ## Syntax
