@@ -11,7 +11,7 @@
     "WaveJSON"
   ],
   "icon": "media/icon.png",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "publisher": "bmpenuelas",
   "engines": {
     "vscode": "^1.65.0"
