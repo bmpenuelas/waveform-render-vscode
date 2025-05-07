@@ -24,7 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
       if (
         WaveformRenderPanel.livePreview &&
         editor &&
-        editor.document.fileName.endsWith('.json')
+        (editor.document.fileName.toLowerCase().endsWith(".json") ||
+          editor.document.fileName.toLowerCase().endsWith(".json5"))
       ) {
         WaveformRenderPanel.createOrShow(context.extensionPath);
       }
@@ -45,12 +46,10 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function getFilename() {
-  return (
-    vscode.window.activeTextEditor.document.fileName
-      .split(/[\\/]/)
-      .pop()
-      .replace(/\.json$/, '')
-  );
+  return vscode.window.activeTextEditor.document.fileName
+    .split(/[\\/]/)
+    .pop()
+    .replace(/\.json5?$/i, "");
 }
 
 function getTitle() {
@@ -77,7 +76,9 @@ class WaveformRenderPanel {
   private _disposables: vscode.Disposable[] = [];
 
   public static toggleLivePreview(extensionPath: string) {
-    const closePanelOnDisable = vscode.workspace.getConfiguration("waveformRender").get<boolean>("closePanelOnDisable", true);
+    const closePanelOnDisable = vscode.workspace
+      .getConfiguration("waveformRender")
+      .get<boolean>("closePanelOnDisable", true);
 
     if (WaveformRenderPanel.livePreview) {
       WaveformRenderPanel.disableLivePreview();
@@ -114,7 +115,13 @@ class WaveformRenderPanel {
     const activeEditor = vscode.window.activeTextEditor;
 
     // Ensure we have an active editor and it's a JSON file
-    if (!activeEditor || !activeEditor.document.fileName.endsWith('.json')) {
+    if (
+      !activeEditor ||
+      !(
+        activeEditor.document.fileName.toLowerCase().endsWith(".json") ||
+        activeEditor.document.fileName.toLowerCase().endsWith(".json5")
+      )
+    ) {
       return;
     }
 
@@ -180,13 +187,17 @@ class WaveformRenderPanel {
 
   public static saveAsSvg() {
     if (WaveformRenderPanel.currentPanel) {
-      WaveformRenderPanel.currentPanel._panel.webview.postMessage({ command: "saveSvg" });
+      WaveformRenderPanel.currentPanel._panel.webview.postMessage({
+        command: "saveSvg",
+      });
     }
   }
 
   public static saveAsPng() {
     if (WaveformRenderPanel.currentPanel) {
-      WaveformRenderPanel.currentPanel._panel.webview.postMessage({ command: "savePng" });
+      WaveformRenderPanel.currentPanel._panel.webview.postMessage({
+        command: "savePng",
+      });
     }
   }
 
@@ -213,7 +224,10 @@ class WaveformRenderPanel {
     this._panel.webview.html = this._getHtmlForWebview(fileContents, title);
   }
 
-  private _getHtmlForWebview(waveformJson: string, title: string = 'waveform render') {
+  private _getHtmlForWebview(
+    waveformJson: string,
+    title: string = "waveform render"
+  ) {
     const scriptPathOnDisk = vscode.Uri.file(
       path.join(this._extensionPath, "localScripts", "wavedrom.min.js")
     );

@@ -60,7 +60,7 @@
         {
           "command": "waveformRender.toggleLivePreview",
           "group": "navigation",
-          "when": "resourceExtname == .json"
+          "when": "resourceExtname == .json || resourceExtname == .JSON || resourceExtname == .json5 || resourceExtname == .JSON5"
         }
       ]
     },
