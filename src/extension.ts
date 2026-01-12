@@ -1,6 +1,20 @@
 import * as path from "path";
 import * as vscode from "vscode";
 
+function isJsonLikeDocument(doc: vscode.TextDocument): boolean {
+  const fileName = doc.fileName.toLowerCase();
+
+  return (
+    fileName.endsWith(".json") ||
+    fileName.endsWith(".json5") ||
+    doc.languageId === "json" ||
+    doc.languageId === "jsonc" ||
+    doc.languageId === "json5" ||
+    doc.isUntitled ||
+    doc.uri.scheme === "untitled"
+  );
+}
+
 export function activate(context: vscode.ExtensionContext) {
   // Start and live preview mode
   context.subscriptions.push(
@@ -24,8 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
       if (
         WaveformRenderPanel.livePreview &&
         editor &&
-        (editor.document.fileName.toLowerCase().endsWith(".json") ||
-          editor.document.fileName.toLowerCase().endsWith(".json5"))
+        isJsonLikeDocument(editor.document)
       ) {
         WaveformRenderPanel.createOrShow(context.extensionPath);
       }
@@ -115,13 +128,7 @@ class WaveformRenderPanel {
     const activeEditor = vscode.window.activeTextEditor;
 
     // Ensure we have an active editor and it's a JSON file
-    if (
-      !activeEditor ||
-      !(
-        activeEditor.document.fileName.toLowerCase().endsWith(".json") ||
-        activeEditor.document.fileName.toLowerCase().endsWith(".json5")
-      )
-    ) {
+    if (!activeEditor || !isJsonLikeDocument(activeEditor.document)) {
       return;
     }
 
