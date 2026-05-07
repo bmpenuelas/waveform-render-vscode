@@ -60,7 +60,7 @@
         {
           "command": "waveformRender.toggleLivePreview",
           "group": "navigation",
-          "when": "resourceExtname == .json || resourceExtname == .JSON || resourceExtname == .json5 || resourceExtname == .JSON5"
+          "when": "waveformRender.isWaveformFile"
         }
       ]
     },
@@ -72,6 +72,11 @@
           "type": "boolean",
           "default": false,
           "description": "Close the Waveform panel when live preview is disabled."
+        },
+        "waveformRender.extensions":{
+          "type": "array",
+          "default": [],
+          "description": "Add more detectable extensions"
         }
       }
     },

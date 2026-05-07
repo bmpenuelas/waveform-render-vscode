@@ -1,18 +1,51 @@
 import * as path from "path";
 import * as vscode from "vscode";
 
-function isJsonLikeDocument(doc: vscode.TextDocument): boolean {
+// Check on each editor change or configuration file change if current file matches 
+// waveform extensions and update UI
+const WAVEFORM_CONTEXT_KEY = "waveformRender.isWaveformFile";
+
+function getConfiguredExtensions(): string[] {
+  const config = vscode.workspace.getConfiguration("waveformRender");
+  const exts = config.get<string[]>("extensions", []);
+
+  return exts
+    .filter((e) => !!e)
+    .map((e) => e.trim().toLowerCase())
+    .map((e) => (e.startsWith(".") ? e : "." + e));
+}
+
+function isWaveformFile(doc: vscode.TextDocument | undefined): boolean {
+  if (!doc) {
+    return false;
+  }
+
   const fileName = doc.fileName.toLowerCase();
+  const defaultExts = [".json", ".json5"];
+  const customExts = getConfiguredExtensions(); // new setting for more flexibility on extensions for live preview
+  const allExts = [...defaultExts, ...customExts];
+
+  const matchesExtension = allExts.some((ext) => fileName.endsWith(ext));
 
   return (
-    fileName.endsWith(".json") ||
-    fileName.endsWith(".json5") ||
+    matchesExtension ||
     doc.languageId === "json" ||
     doc.languageId === "jsonc" ||
     doc.languageId === "json5" ||
     doc.isUntitled ||
     doc.uri.scheme === "untitled"
   );
+}
+
+// Keep the context key up to date
+async function updateWaveformContext() {
+  const editor = vscode.window.activeTextEditor;
+  const isWave = isWaveformFile(editor?.document);
+  await vscode.commands.executeCommand("setContext", WAVEFORM_CONTEXT_KEY, isWave);
+}
+
+function isJsonLikeDocument(doc: vscode.TextDocument): boolean {
+  return isWaveformFile(doc);
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -35,12 +68,22 @@ export function activate(context: vscode.ExtensionContext) {
   // Add listener for changing active text editor
   context.subscriptions.push(
     vscode.window.onDidChangeActiveTextEditor((editor) => {
+      updateWaveformContext();
       if (
         WaveformRenderPanel.livePreview &&
         editor &&
         isJsonLikeDocument(editor.document)
       ) {
         WaveformRenderPanel.createOrShow(context.extensionPath);
+      }
+    })
+  );
+
+  // Add listener for changing configuration file
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration("waveformRender.extensions")) {
+        updateWaveformContext();
       }
     })
   );
@@ -58,11 +101,27 @@ export function activate(context: vscode.ExtensionContext) {
   );
 }
 
+// Updated function to take in account configured extensions
 function getFilename() {
-  return vscode.window.activeTextEditor.document.fileName
-    .split(/[\\/]/)
-    .pop()
-    .replace(/\.json5?$/i, "");
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    return "untitled";
+  }
+
+  const fullName = editor.document.fileName.split(/[\\/]/).pop() || "";
+  let base = fullName;
+
+  // Strip default extensions (.json / .json5)
+  base = base.replace(/\.json5?$/i, "");
+
+  // Also strip any configured custom extensions
+  const customExts = getConfiguredExtensions();
+  for (const ext of customExts) {
+    const re = new RegExp(ext.replace(".", "\\.") + "$", "i");
+    base = base.replace(re, "");
+  }
+
+  return base || fullName; 
 }
 
 function getTitle() {
