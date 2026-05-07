@@ -6,7 +6,7 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
 
 ## Usage
 
-📄 Open a .JSON file containing a WaveDrom waveform, like
+📄 Open a `.JSON` (or `.json5`) file containing a WaveDrom waveform, like
 ```json
 { signal: [
   { name: "clk",         wave: "p.....|..." },
@@ -48,6 +48,10 @@ This VSCode extension is [available on the VSCode Extension Marketplace](https:/
     - `Waveform Render: Copy Save as SVG` (`waveformRender.saveAsSvg`)
 
 <br>
+
+## Contributing
+
+You can find automated and manual testing instructions in [TESTING.md](./TESTING.md).
 
 ## Syntax
 

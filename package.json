@@ -28,7 +28,8 @@
     "url": "https://github.com/bmpenuelas/waveform-render-vscode.git"
   },
   "activationEvents": [
-    "onWebviewPanel:waveformRender"
+    "onWebviewPanel:waveformRender",
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -73,10 +74,10 @@
           "default": false,
           "description": "Close the Waveform panel when live preview is disabled."
         },
-        "waveformRender.extensions":{
+        "waveformRender.extensions": {
           "type": "array",
           "default": [],
-          "description": "Add more detectable extensions"
+          "description": "Additional file extensions that should be treated as waveform sources."
         }
       }
     },
@@ -96,6 +97,10 @@
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
     "compile": "tsc -p ./",
+    "compile-tests": "tsc -p ./ --outDir .test-out",
+    "test:logic": "npm run compile-tests && node ./.test-out/test/suite.js",
+    "test:webview": "npm run compile-tests && node ./test/webviewRuntime.js",
+    "test": "npm run compile-tests && node ./.test-out/test/suite.js && node ./test/webviewRuntime.js",
     "watch": "tsc -w -p ./",
     "update-scripts": "mkdir -p localScripts/skins && curl -k -o localScripts/wavedrom.min.js https://wavedrom.com/wavedrom.min.js && curl -k -o localScripts/skins/dark.js https://wavedrom.com/skins/dark.js && curl -k -o localScripts/skins/default.js https://wavedrom.com/skins/default.js && curl -k -o localScripts/skins/lowkey.js https://wavedrom.com/skins/lowkey.js && curl -k -o localScripts/skins/narrow.js https://wavedrom.com/skins/narrow.js && curl -k -o localScripts/skins/narrower.js https://wavedrom.com/skins/narrower.js && curl -k -o localScripts/skins/narrowerer.js https://wavedrom.com/skins/narrowerer.js && curl -k -o localScripts/skins/width.html https://wavedrom.com/skins/width.html",
     "publish:marketplace": "vsce package && vsce publish",
@@ -105,6 +110,7 @@
   "devDependencies": {
     "@types/node": "^18.11.17",
     "@types/vscode": "^1.65.0",
+    "playwright-core": "^1.59.1",
     "tslint": "^6.1.3",
     "typescript": "^4.9.4"
   }
