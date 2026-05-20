@@ -192,11 +192,24 @@ export function createWaveformWebviewHtml(params: {
   const lowkeySkinPathOnDisk = params.uriFactory.file(
     path.join(params.extensionPath, "localScripts", "skins", "lowkey.js")
   );
+  const darkSkinPathOnDisk = params.uriFactory.file(
+    path.join(params.extensionPath, "localScripts", "skins", "dark.js")
+  );
+  const narrowerSkinPathOnDisk = params.uriFactory.file(
+    path.join(params.extensionPath, "localScripts", "skins", "narrower.js")
+  );
+  const narrowererSkinPathOnDisk = params.uriFactory.file(
+    path.join(params.extensionPath, "localScripts", "skins", "narrowerer.js")
+  );
 
   const scriptUri = params.toWebviewUri(scriptPathOnDisk);
   const defaultUri = params.toWebviewUri(defaultSkinPathOnDisk);
   const narrowUri = params.toWebviewUri(narrowSkinPathOnDisk);
   const lowkeyUri = params.toWebviewUri(lowkeySkinPathOnDisk);
+  const darkUri = params.toWebviewUri(darkSkinPathOnDisk);
+  const narrowerUri = params.toWebviewUri(narrowerSkinPathOnDisk);
+  const narrowererUri = params.toWebviewUri(narrowererSkinPathOnDisk);
+  
   const title = params.title || "waveform render";
 
   return `<!DOCTYPE html>
@@ -209,6 +222,9 @@ export function createWaveformWebviewHtml(params: {
                   <script src="${defaultUri}"></script>
                   <script src="${narrowUri}"></script>
                   <script src="${lowkeyUri}"></script>
+                  <script src="${darkUri}"></script>
+                  <script src="${narrowerUri}"></script>
+                  <script src="${narrowererUri}"></script>
 
                   <title>${title}</title>
             </head>
