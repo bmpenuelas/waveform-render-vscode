@@ -109,6 +109,14 @@ export const WAVEFORM_VIEW_TYPE = "waveformRender";
 export const WAVEFORM_CONTEXT_KEY = "waveformRender.isWaveformFile";
 export const COPY_TO_CLIPBOARD_ICON = "&#128203;";
 export const DEFAULT_WAVEFORM_EXTENSIONS = [".json", ".json5"];
+export const WAVEDROM_SKIN_FILES = [
+  "dark.js",
+  "default.js",
+  "lowkey.js",
+  "narrow.js",
+  "narrower.js",
+  "narrowerer.js",
+];
 export const DEFAULT_WAVEFORM_CONTENT = `{ signal: [
     { name: "clk",         wave: "p.....|..." },
     { name: "Data",        wave: "x.345x|=.x", data: ["head", "body", "tail", "data"] },
@@ -183,33 +191,18 @@ export function createWaveformWebviewHtml(params: {
   const scriptPathOnDisk = params.uriFactory.file(
     path.join(params.extensionPath, "localScripts", "wavedrom.min.js")
   );
-  const defaultSkinPathOnDisk = params.uriFactory.file(
-    path.join(params.extensionPath, "localScripts", "skins", "default.js")
-  );
-  const narrowSkinPathOnDisk = params.uriFactory.file(
-    path.join(params.extensionPath, "localScripts", "skins", "narrow.js")
-  );
-  const lowkeySkinPathOnDisk = params.uriFactory.file(
-    path.join(params.extensionPath, "localScripts", "skins", "lowkey.js")
-  );
-  const darkSkinPathOnDisk = params.uriFactory.file(
-    path.join(params.extensionPath, "localScripts", "skins", "dark.js")
-  );
-  const narrowerSkinPathOnDisk = params.uriFactory.file(
-    path.join(params.extensionPath, "localScripts", "skins", "narrower.js")
-  );
-  const narrowererSkinPathOnDisk = params.uriFactory.file(
-    path.join(params.extensionPath, "localScripts", "skins", "narrowerer.js")
-  );
-
   const scriptUri = params.toWebviewUri(scriptPathOnDisk);
-  const defaultUri = params.toWebviewUri(defaultSkinPathOnDisk);
-  const narrowUri = params.toWebviewUri(narrowSkinPathOnDisk);
-  const lowkeyUri = params.toWebviewUri(lowkeySkinPathOnDisk);
-  const darkUri = params.toWebviewUri(darkSkinPathOnDisk);
-  const narrowerUri = params.toWebviewUri(narrowerSkinPathOnDisk);
-  const narrowererUri = params.toWebviewUri(narrowererSkinPathOnDisk);
-  
+  const skinScriptTags = WAVEDROM_SKIN_FILES
+    .map((skinFileName) =>
+      params.toWebviewUri(
+        params.uriFactory.file(
+          path.join(params.extensionPath, "localScripts", "skins", skinFileName)
+        )
+      )
+    )
+    .map((skinUri) => `                  <script src="${skinUri}"></script>`)
+    .join("\n");
+
   const title = params.title || "waveform render";
 
   return `<!DOCTYPE html>
@@ -219,12 +212,7 @@ export function createWaveformWebviewHtml(params: {
 
                   <script src="${scriptUri}"></script>
 
-                  <script src="${defaultUri}"></script>
-                  <script src="${narrowUri}"></script>
-                  <script src="${lowkeyUri}"></script>
-                  <script src="${darkUri}"></script>
-                  <script src="${narrowerUri}"></script>
-                  <script src="${narrowererUri}"></script>
+${skinScriptTags}
 
                   <title>${title}</title>
             </head>

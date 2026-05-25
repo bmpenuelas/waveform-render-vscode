@@ -1,8 +1,11 @@
+import * as fs from "fs";
+import * as path from "path";
 import * as assert from "assert";
 import {
   activateWithApi,
   COPY_TO_CLIPBOARD_ICON,
   createWaveformWebviewHtml,
+  WAVEDROM_SKIN_FILES,
   WAVEFORM_CONTEXT_KEY,
   getFilenameFromPath,
   getTitleFromPath,
@@ -389,6 +392,21 @@ test("renders webview HTML with scripts and export actions", () => {
   assert.ok(html.includes("WaveDrom.ProcessAll()"));
   assert.ok(html.includes("{ signal: [] }"));
   assert.ok(html.includes("<title>timing</title>"));
+  for (const skinFileName of WAVEDROM_SKIN_FILES) {
+    assert.ok(html.includes(skinFileName));
+  }
+});
+
+test("explicit skin allowlist matches bundled skin scripts", () => {
+  const bundledSkinFiles = fs
+    .readdirSync(path.join(process.cwd(), "localScripts", "skins"), {
+      withFileTypes: true,
+    })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".js"))
+    .map((entry) => entry.name)
+    .sort((left, right) => left.localeCompare(right));
+
+  assert.deepStrictEqual(WAVEDROM_SKIN_FILES, bundledSkinFiles);
 });
 
 test("registers extension commands during activation", () => {
