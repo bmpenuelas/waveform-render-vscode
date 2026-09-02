@@ -1,6 +1,6 @@
 {
   "name": "waveform-render",
-  "displayName": "Waveform Render",
+  "displayName": "WaveDrom Render & Live Edit",
   "description": "Draw timing diagram waveforms with WaveDrom inside VSCode",
   "license": "MIT",
   "keywords": [
@@ -102,7 +102,7 @@
     "test:webview": "npm run compile-tests && node ./test/webviewRuntime.js",
     "test": "npm run compile-tests && node ./.test-out/test/suite.js && node ./test/webviewRuntime.js",
     "watch": "tsc -w -p ./",
-    "update-scripts": "mkdir -p localScripts/skins && curl -k -o localScripts/wavedrom.min.js https://wavedrom.com/wavedrom.min.js && curl -k -o localScripts/skins/dark.js https://wavedrom.com/skins/dark.js && curl -k -o localScripts/skins/default.js https://wavedrom.com/skins/default.js && curl -k -o localScripts/skins/lowkey.js https://wavedrom.com/skins/lowkey.js && curl -k -o localScripts/skins/narrow.js https://wavedrom.com/skins/narrow.js && curl -k -o localScripts/skins/narrower.js https://wavedrom.com/skins/narrower.js && curl -k -o localScripts/skins/narrowerer.js https://wavedrom.com/skins/narrowerer.js && curl -k -o localScripts/skins/width.html https://wavedrom.com/skins/width.html",
+    "update-scripts": "node -e \"const fs=require('fs'),https=require('https'),path=require('path');const urls=['https://wavedrom.com/wavedrom.min.js','https://wavedrom.com/skins/dark.js','https://wavedrom.com/skins/default.js','https://wavedrom.com/skins/lowkey.js','https://wavedrom.com/skins/narrow.js','https://wavedrom.com/skins/narrower.js','https://wavedrom.com/skins/narrowerer.js','https://wavedrom.com/skins/width.html'];urls.forEach(url=>{const dest=path.join('localScripts',url.replace('https://wavedrom.com/',''));fs.mkdirSync(path.dirname(dest),{recursive:true});https.get(url,res=>{const chunks=[];res.on('data',c=>chunks.push(c));res.on('end',()=>{fs.writeFileSync(dest,Buffer.concat(chunks));console.log('Downloaded',dest)})}).on('error',e=>console.error('Failed',url,e.message))})\"",
     "publish:marketplace": "vsce package && vsce publish",
     "publish:openvsx": "bash -c \"read -p 'Enter packaged filename: ' filename && read -sp 'Enter openvsx token: ' token && echo && npx ovsx publish \\\"$filename\\\" -p \\\"$token\\\"\"",
     "publish": "npm run test && npm version minor --no-git-tag-version && npm run publish:marketplace && npm run publish:openvsx"
